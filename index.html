@@ -1,10 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Contagem Regressiva ✈️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
@@ -25,7 +23,6 @@
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       cursor: pointer;
-      z-index: 2;
     }
 
     h1 {
@@ -35,6 +32,7 @@
     .tempo {
       font-size: 1.1em;
       margin-top: 15px;
+      font-weight: bold;
     }
 
     /* 🐔 GALINHA */
@@ -44,37 +42,41 @@
       left: -150px;
       width: 120px;
       display: none;
-      animation: andar 6s linear forwards;
       z-index: 999;
+      animation: andar 6s linear forwards, passos 0.4s infinite;
     }
 
+    /* anda da esquerda para a direita */
     @keyframes andar {
-      from {
-        left: -150px;
-      }
-      to {
-        left: 110%;
-      }
+      from { left: -150px; }
+      to { left: 110%; }
+    }
+
+    /* efeito de caminhada */
+    @keyframes passos {
+      0%   { transform: translateY(0) rotate(0deg); }
+      25%  { transform: translateY(-2px) rotate(-2deg); }
+      50%  { transform: translateY(0) rotate(0deg); }
+      75%  { transform: translateY(-2px) rotate(2deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
   </style>
 </head>
+
 <body>
 
-  <div class="card">
+  <div class="card" id="card">
     <h1>✈️ Contagem Regressiva</h1>
     <p>Faltam:</p>
     <div class="tempo" id="contador"></div>
     <p style="margin-top:10px;">🏖️🌊</p>
   </div>
 
-  <!-- 🐔 Galinha Easter Egg -->
-  <img 
-    id="galinha" 
-    src="galinha.jpg" 
-    alt="Galinha andando">
+  <!-- 🐔 Galinha escondida -->
+  <img id="galinha" src="galinha.jpg" alt="Galinha andando">
 
   <script>
-    // 📅 DATA DA VIAGEM
+    /* ⏳ CONTAGEM REGRESSIVA */
     const dataViagem = new Date("2025-12-20T08:00:00");
 
     function atualizarContador() {
@@ -93,26 +95,27 @@
       const segundos = Math.floor((diff / 1000) % 60);
 
       document.getElementById("contador").innerHTML =
-        `${dias} dias ${horas} horas ${minutos} minutos ${segundos} segundos`;
+        `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
     }
 
     setInterval(atualizarContador, 1000);
     atualizarContador();
 
-    // 🐔 EASTER EGG — 5 CLIQUES
+    /* 🐔 EASTER EGG — 5 CLIQUES */
     let cliques = 0;
+    const card = document.getElementById("card");
 
-    document.querySelector(".card").addEventListener("click", () => {
+    card.addEventListener("click", () => {
       cliques++;
 
       if (cliques === 5) {
         const galinha = document.getElementById("galinha");
-        galinha.style.display = "block";
 
-        // reinicia animação
+        galinha.style.display = "block";
         galinha.style.animation = "none";
-        galinha.offsetHeight;
-        galinha.style.animation = "andar 6s linear forwards";
+        galinha.offsetHeight; // força reinício da animação
+        galinha.style.animation =
+          "andar 6s linear forwards, passos 0.4s infinite";
 
         cliques = 0;
       }
