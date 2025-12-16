@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contagem Regressiva ✈️</title>
 
   <style>
@@ -11,117 +12,46 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       text-align: center;
       overflow: hidden;
+      padding: 16px;
     }
 
     .card {
       background: white;
-      padding: 30px;
-      border-radius: 16px;
+      width: 100%;
+      max-width: 360px;
+      padding: 24px 20px;
+      border-radius: 18px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       cursor: pointer;
+      user-select: none;
     }
 
     h1 {
-      margin-bottom: 10px;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin: 6px 0;
+      font-size: 0.95rem;
     }
 
     .tempo {
-      font-size: 1.1em;
-      margin-top: 15px;
+      font-size: 1.1rem;
+      margin-top: 12px;
       font-weight: bold;
+      line-height: 1.5;
     }
 
     /* 🐔 GALINHA */
     #galinha {
       position: fixed;
-      bottom: 20px;
-      left: -150px;
-      width: 120px;
+      bottom: 16px;
+      left: -120px;
+      width: 90px;
       display: none;
-      z-index: 999;
-      animation: andar 6s linear forwards, passos 0.4s infinite;
-    }
-
-    /* anda da esquerda para a direita */
-    @keyframes andar {
-      from { left: -150px; }
-      to { left: 110%; }
-    }
-
-    /* efeito de caminhada */
-    @keyframes passos {
-      0%   { transform: translateY(0) rotate(0deg); }
-      25%  { transform: translateY(-2px) rotate(-2deg); }
-      50%  { transform: translateY(0) rotate(0deg); }
-      75%  { transform: translateY(-2px) rotate(2deg); }
-      100% { transform: translateY(0) rotate(0deg); }
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="card" id="card">
-    <h1>✈️ Contagem Regressiva</h1>
-    <p>Faltam:</p>
-    <div class="tempo" id="contador"></div>
-    <p style="margin-top:10px;">🏖️🌊</p>
-  </div>
-
-  <!-- 🐔 Galinha escondida -->
-  <img id="galinha" src="galinha.jpg" alt="Galinha andando">
-
-  <script>
-    /* ⏳ CONTAGEM REGRESSIVA */
-    const dataViagem = new Date("2025-12-20T08:00:00");
-
-    function atualizarContador() {
-      const agora = new Date();
-      const diff = dataViagem - agora;
-
-      if (diff <= 0) {
-        document.getElementById("contador").innerHTML =
-          "🎉 Chegou o dia da viagem!";
-        return;
-      }
-
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutos = Math.floor((diff / (1000 * 60)) % 60);
-      const segundos = Math.floor((diff / 1000) % 60);
-
-      document.getElementById("contador").innerHTML =
-        `${dias} dias ${horas}h ${minutos}m ${segundos}s`;
-    }
-
-    setInterval(atualizarContador, 1000);
-    atualizarContador();
-
-    /* 🐔 EASTER EGG — 5 CLIQUES */
-    let cliques = 0;
-    const card = document.getElementById("card");
-
-    card.addEventListener("click", () => {
-      cliques++;
-
-      if (cliques === 5) {
-        const galinha = document.getElementById("galinha");
-
-        galinha.style.display = "block";
-        galinha.style.animation = "none";
-        galinha.offsetHeight; // força reinício da animação
-        galinha.style.animation =
-          "andar 6s linear forwards, passos 0.4s infinite";
-
-        cliques = 0;
-      }
-    });
-  </script>
-
-</body>
-</html>
-
+      z-index:
