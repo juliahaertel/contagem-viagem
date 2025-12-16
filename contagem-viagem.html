@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Contagem Regressiva ✈️</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #87CEEB, #FFFFFF);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    .tempo {
+      font-size: 1.1em;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>✈️ Contagem Regressiva</h1>
+  <p>Faltam:</p>
+  <div class="tempo" id="contador"></div>
+  <p style="margin-top:10px;">🏖️🌊</p>
+</div>
+
+<script>
+  
+  const dataViagem = new Date("2025-12-20T08:00:00");
+
+  function atualizarContador() {
+    const agora = new Date();
+    const diff = dataViagem - agora;
+
+    if (diff <= 0) {
+      document.getElementById("contador").innerHTML = "🎉 Chegou o dia da viagem!";
+      return;
+    }
+
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diff / (1000 * 60)) % 60);
+    const segundos = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("contador").innerHTML =
+      `${dias} dias ${horas} horas ${minutos} minutos ${segundos} segundos`;
+  }
+
+  setInterval(atualizarContador, 1000);
+  atualizarContador();
+</script>
+
+</body>
+</html>
