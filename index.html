@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contagem Regressiva ✈️💫 </title>
+  <title>Contagem Regressiva ✈️</title>
 
   <style>
     body {
@@ -54,4 +54,94 @@
       left: -120px;
       width: 90px;
       display: none;
-      z-index:
+      z-index: 999;
+      animation: andar 6s linear forwards, passos 0.4s infinite;
+    }
+
+    @keyframes andar {
+      from { left: -120px; }
+      to { left: 110%; }
+    }
+
+    @keyframes passos {
+      0%   { transform: translateY(0) rotate(0deg); }
+      25%  { transform: translateY(-2px) rotate(-2deg); }
+      50%  { transform: translateY(0) rotate(0deg); }
+      75%  { transform: translateY(-2px) rotate(2deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    /* 📱 Ajustes extras para telas muito pequenas */
+    @media (max-width: 360px) {
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      .tempo {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card" id="card">
+    <h1>✈️ Contagem Regressiva</h1>
+    <p>Faltam:</p>
+    <div class="tempo" id="contador"></div>
+    <p style="margin-top:8px;">🏖️🌊</p>
+    <p style="font-size:0.75rem; opacity:0.6;">(toque 5x 👀)</p>
+  </div>
+
+  <!-- 🐔 Galinha escondida -->
+  <img id="galinha" src="galinha.jpg" alt="Galinha andando">
+
+  <script>
+    const dataViagem = new Date("2025-12-20T08:00:00");
+
+    function atualizarContador() {
+      const agora = new Date();
+      const diff = dataViagem - agora;
+
+      if (diff <= 0) {
+        document.getElementById("contador").innerHTML =
+          "🎉 Chegou o dia da viagem!";
+        return;
+      }
+
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("contador").innerHTML =
+        `${dias} dias<br>${horas}h ${minutos}m ${segundos}s`;
+    }
+
+    setInterval(atualizarContador, 1000);
+    atualizarContador();
+
+    /* 🐔 EASTER EGG — 5 TOQUES */
+    let cliques = 0;
+    const card = document.getElementById("card");
+
+    card.addEventListener("click", () => {
+      cliques++;
+
+      if (cliques === 5) {
+        const galinha = document.getElementById("galinha");
+
+        galinha.style.display = "block";
+        galinha.style.animation = "none";
+        galinha.offsetHeight;
+        galinha.style.animation =
+          "andar 6s linear forwards, passos 0.4s infinite";
+
+        cliques = 0;
+      }
+    });
+  </script>
+
+</body>
+</html>
