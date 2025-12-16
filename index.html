@@ -6,61 +6,70 @@
   <title>Contagem Regressiva ✈️</title>
 
   <style>
+    :root {
+      --card-radius: 20px;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
       background: linear-gradient(135deg, #87CEEB, #FFFFFF);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      min-height: 100svh;
       margin: 0;
+      padding: clamp(12px, 4vw, 24px);
       text-align: center;
       overflow: hidden;
-      padding: 16px;
     }
 
     .card {
       background: white;
       width: 100%;
-      max-width: 360px;
-      padding: 24px 20px;
-      border-radius: 18px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      max-width: 420px;
+      padding: clamp(20px, 5vw, 32px);
+      border-radius: var(--card-radius);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
       cursor: pointer;
       user-select: none;
+      transition: transform .15s ease;
+    }
+
+    .card:active {
+      transform: scale(0.98);
     }
 
     h1 {
-      font-size: 1.4rem;
-      margin-bottom: 8px;
+      font-size: clamp(1.2rem, 5vw, 1.6rem);
+      margin: 0 0 clamp(6px, 2vw, 10px);
     }
 
     p {
-      margin: 6px 0;
-      font-size: 0.95rem;
+      font-size: clamp(0.85rem, 3.5vw, 1rem);
+      margin: clamp(4px, 1.5vw, 8px) 0;
     }
 
     .tempo {
-      font-size: 1.1rem;
-      margin-top: 12px;
-      font-weight: bold;
-      line-height: 1.5;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-weight: 700;
+      line-height: 1.4;
+      margin-top: clamp(10px, 3vw, 16px);
     }
 
     /* 🐔 GALINHA */
     #galinha {
       position: fixed;
-      bottom: 16px;
-      left: -120px;
-      width: 90px;
+      bottom: clamp(10px, 4vw, 24px);
+      left: -30vw;
+      width: clamp(70px, 20vw, 110px);
       display: none;
       z-index: 999;
       animation: andar 6s linear forwards, passos 0.4s infinite;
     }
 
     @keyframes andar {
-      from { left: -120px; }
-      to { left: 110%; }
+      from { left: -30vw; }
+      to { left: 110vw; }
     }
 
     @keyframes passos {
@@ -71,15 +80,11 @@
       100% { transform: translateY(0) rotate(0deg); }
     }
 
-    /* 📱 Ajustes extras para telas muito pequenas */
-    @media (max-width: 360px) {
-      h1 {
-        font-size: 1.2rem;
-      }
-
-      .tempo {
-        font-size: 1rem;
-      }
+    /* 🧠 dica discreta */
+    .hint {
+      font-size: clamp(0.65rem, 2.5vw, 0.75rem);
+      opacity: 0.55;
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -90,8 +95,8 @@
     <h1>✈️ Contagem Regressiva</h1>
     <p>Faltam:</p>
     <div class="tempo" id="contador"></div>
-    <p style="margin-top:8px;">🏖️🌊</p>
-    <p style="font-size:0.75rem; opacity:0.6;">(toque 5x 👀)</p>
+    <p>🏖️🌊</p>
+    <div class="hint">(toque 5x)</div>
   </div>
 
   <!-- 🐔 Galinha escondida -->
@@ -105,8 +110,7 @@
       const diff = dataViagem - agora;
 
       if (diff <= 0) {
-        document.getElementById("contador").innerHTML =
-          "🎉 Chegou o dia da viagem!";
+        contador.innerHTML = "🎉 Chegou o dia da viagem!";
         return;
       }
 
@@ -115,29 +119,23 @@
       const minutos = Math.floor((diff / (1000 * 60)) % 60);
       const segundos = Math.floor((diff / 1000) % 60);
 
-      document.getElementById("contador").innerHTML =
+      contador.innerHTML =
         `${dias} dias<br>${horas}h ${minutos}m ${segundos}s`;
     }
 
     setInterval(atualizarContador, 1000);
     atualizarContador();
 
-    /* 🐔 EASTER EGG — 5 TOQUES */
+    /* 🐔 EASTER EGG */
     let cliques = 0;
-    const card = document.getElementById("card");
-
     card.addEventListener("click", () => {
       cliques++;
-
       if (cliques === 5) {
-        const galinha = document.getElementById("galinha");
-
         galinha.style.display = "block";
         galinha.style.animation = "none";
         galinha.offsetHeight;
         galinha.style.animation =
           "andar 6s linear forwards, passos 0.4s infinite";
-
         cliques = 0;
       }
     });
